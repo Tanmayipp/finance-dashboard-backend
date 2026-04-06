@@ -3,6 +3,7 @@ from datetime import date
 from typing import Optional
 from enum import Enum
 from decimal import Decimal
+from pydantic import BaseModel, Field, field_serializer
 
 
 class RecordType(str, Enum):
@@ -32,6 +33,10 @@ class RecordUpdate(BaseModel):
 class RecordResponse(RecordBase):
     id: int
     notes: Optional[str]
-
+    
+    @field_serializer("amount")
+    def serialize_amount(self, value: Decimal):
+        return float(value)  
+   
     class Config:
         from_attributes = True

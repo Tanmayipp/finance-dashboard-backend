@@ -4,13 +4,10 @@ from typing import Optional
 from datetime import date
 
 from app.database import get_db
-from app.schemas.record_schema import (
-    RecordCreate,
-    RecordResponse,
-    RecordUpdate
-)
+from app.schemas.record_schema import RecordCreate, RecordResponse, RecordUpdate
 from app.core.security import role_required
 from app.services import record_service
+from app.models.user import UserRole  # ✅ IMPORTANT
 
 router = APIRouter(prefix="/records", tags=["Records"])
 
@@ -20,7 +17,7 @@ router = APIRouter(prefix="/records", tags=["Records"])
 def create_record(
     record: RecordCreate,
     db: Session = Depends(get_db),
-    user=Depends(role_required(["admin"]))
+    user=Depends(role_required([UserRole.admin]))  # ✅ FIXED
 ):
     return record_service.create_record(db, user, record)
 
@@ -33,7 +30,7 @@ def get_records(
     start_date: Optional[date] = Query(None),
     end_date: Optional[date] = Query(None),
     db: Session = Depends(get_db),
-    user=Depends(role_required(["analyst", "admin"]))
+    user=Depends(role_required([UserRole.analyst, UserRole.admin]))  # ✅ FIXED
 ):
     return record_service.get_records(
         db=db,
@@ -51,7 +48,7 @@ def update_record(
     record_id: int,
     record: RecordUpdate,
     db: Session = Depends(get_db),
-    user=Depends(role_required(["admin"]))
+    user=Depends(role_required([UserRole.admin]))  # ✅ FIXED
 ):
     updated_record = record_service.update_record(db, user, record_id, record)
 
@@ -66,7 +63,7 @@ def update_record(
 def delete_record(
     record_id: int,
     db: Session = Depends(get_db),
-    user=Depends(role_required(["admin"]))
+    user=Depends(role_required([UserRole.admin]))  # ✅ FIXED
 ):
     success = record_service.delete_record(db, user, record_id)
 

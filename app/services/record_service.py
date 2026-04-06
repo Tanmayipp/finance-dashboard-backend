@@ -28,7 +28,7 @@ def get_records(
     start_date = None,
     end_date = None
 ):
-    query = db.query(Record).filter(Record.user_id == user.id)
+    query = db.query(Record)
 
     if type:
         query = query.filter(Record.type == type)
