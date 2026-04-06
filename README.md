@@ -156,3 +156,9 @@ http://127.0.0.1:8000/docs
 ## Conclusion
 
 This project demonstrates backend design principles including clean architecture, role-based access control, data validation, and aggregation logic. The focus was on building a maintainable and logically structured system rather than unnecessary complexity.
+
+## API Preview
+
+Below is a preview of the Swagger UI for interacting with the API:
+
+![Swagger UI](screenshotfin.png)
